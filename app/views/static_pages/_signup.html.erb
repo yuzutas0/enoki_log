@@ -1,0 +1,5 @@
+<% if signed_in? %>
+	<div class="btn btn-large btn-success disabled">既に登録されています</div>
+<% else %>
+	<%= link_to "ユーザー登録する »", signup_path, class: "btn btn-large btn-success" %>
+<% end %>

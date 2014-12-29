@@ -1,0 +1,23 @@
+<% provide(:title, "MyPage") %>
+<div class="row">
+	<aside class="span4">
+		<section>
+      <h1>Your Account</h1>
+			<div><%= @user.email %></div>
+      <span class="before-button"></span>
+			<%= link_to "新しい学習を記録する", "/subjects/new", class: "btn btn-large btn-success" %>
+		</section>
+	</aside>
+	<div class="span8">
+    <% if @user.subjects.any? %>
+      <h3>あなたの学習記録 (<%= @user.subjects.count %>)</h3>
+      <ol class="subjects">
+        <%= render @subjects %>
+      </ol>
+      <%= will_paginate @subjects %>
+    <% else %>
+    	<h3>まだ学習の記録はありません</h3> 
+    	<span>新しい学びの記録を始めてみましょう！</span>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<% provide(:title, @subject.title) %>
+
+<div class="row span8 offset2">
+	<%= form_for(@subject) do |f| %>
+		<%= render 'shared/error_messages' %>
+				
+		<%= f.label :title %>
+		<%= f.text_field :title %>
+
+		<%= f.label :description %>
+		<%= f.text_area :description %>
+
+	  <div>From:<%= @subject.start_day %></div>
+	  <div>To:<%= @subject.end_day %></div>
+	  <div>http://enokilog.com/share/<%= @subject.url %></div>
+	  <span class="timestamp">Posted <%= time_ago_in_words(@subject.created_at) %> ago. /</span>
+	  <span class="timestamp">Updated <%= time_ago_in_words(@subject.updated_at) %> ago.</span>
+	  <div><%= link_to "Delete", "/subjects/#{@subject.id}", method: "delete", data: { confirm: "この学習記録を削除しますか?" } %></div>
+
+		<%= f.fields_for :materials do |builder| %>
+		  <%= render 'material_fields', :f => builder %>
+		<% end %>
+		<div><%= link_to_add_fields "Add Material", f, :materials %></div>
+		<span class="before-button"></span>
+		<%= f.submit "編集内容を保存する", class: "btn btn-large btn-max btn-success" %>
+	<% end %>
+</div>

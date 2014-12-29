@@ -1,0 +1,42 @@
+<% provide(:title, @subject.title) %>
+
+<%= form_for(@subject) do |f| %>
+	<%= render 'shared/error_messages' %>
+	<h1><%= @subject.title %></h1>
+	<div class="row span8 offset2">
+		<div><%= @subject.description %></div>
+		<span class="before-button"></span>
+		<ul>
+			<h2>Material</h2>
+		  <% for material in @subject.materials %>
+				<li><%= link_to "#{material.name}", "#{material.link}", :rel => 'nofollow' %></li>
+			<% end %>
+		</ul>
+	</div>
+	
+	<div class="row span12 table-view">
+			<table class="table table-hover log-table">
+				<tr>
+					<th>Day</th>
+					<th>Plan</th>
+					<th>Activity</th>
+					<th>Progress</th>
+					<th>Memo</th>
+				</tr>
+				<%= f.fields_for :diaries do |builder| %>
+					<tr>
+						<td><%= builder.text_field :day, :readonly => true, :disabled => true, :class => 'log-day' %></td>
+						<td><%= builder.text_field :todo %></td>
+						<td><%= builder.text_field :done %></td>
+						<td><%= builder.select :progress, {"Ｘ" => "10", "△" => "50", "◯" => "100", "◎" => "150"}, :include_blank => true, :class => 'log-progress' %></td>
+						<td><%= builder.text_field :memo, :class => 'log-memo' %></td>				
+					</tr>
+				<% end %>
+			</table>
+	</div>
+
+	<div class="row span8 offset2">
+		<span class="before-button"></span>
+		<%= f.submit "編集内容を保存する", class: "btn btn-large btn-max btn-success" %>
+	</div>
+<% end %>

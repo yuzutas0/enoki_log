@@ -1,0 +1,32 @@
+<%= render 'shared/error_messages' %>
+
+<%= f.label :title %>
+<%= f.text_field :title %>
+
+<%= f.label :description %>
+<%= f.text_area :description %>
+
+<%= f.label :start_day %>
+<%= f.date_select(
+          :start_day,
+          with_css_classes:  true,
+          use_month_numbers: true,
+          date_separator:    ' / ',
+          start_year:        2014,
+          end_year:          (Time.now.year + 3),
+          default:           Date.today) %>
+
+<%= f.label :end_day %>
+<%= f.date_select(
+          :end_day,
+          with_css_classes:  true,
+          use_month_numbers: true,
+          date_separator:    ' / ',
+          start_year:        2014,
+          end_year:          (Time.now.year + 3),
+          default:           Date.today + 20) %>
+
+<%= f.fields_for :materials do |builder| %>
+  <%= render 'material_fields', :f => builder %>
+<% end %>
+<div><%= link_to_add_fields "Add Material", f, :materials %></div>

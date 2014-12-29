@@ -1,0 +1,12 @@
+<% provide(:title, 'New Study') %>
+<h1>New Study</h1>
+
+<div class="row">
+	<div class="span6 offset3">
+		<%= form_for(@subject) do |f| %>
+	    <%= render 'fields', f: f %>
+	    <span class="before-button"></span>
+	    <%= f.submit "新規作成", class: "btn btn-large btn-max btn-success" %>
+	  <% end %>
+	</div>
+</div>

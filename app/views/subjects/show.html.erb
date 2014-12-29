@@ -1,0 +1,90 @@
+<% provide(:title, @subject.title) %>
+
+<div class="row span8 offset2 share-content">
+	<h1><%= @subject.title %></h1>
+	<div><%= simple_format(@subject.description) %></div>
+	<div>
+		<% @subject.materials.each_with_index do |material, i| %>
+			<span class="label label-success">教材(<%= "#{h(i + 1)}" %>)</span>
+				<span>
+					<% if material.link.present? %>
+						<%= link_to "#{h(material.name)}", "#{h(material.link)}", :rel => 'nofollow' %>
+					<% else %>
+						<%= material.name %>
+					<% end %>
+				</span><br>
+		<% end %>
+	</div>
+  <div>
+  	<span class="label">開始日</span><span> <%= @subject.start_day %></span><br>
+  	<span class="label">終了日</span><span> <%= @subject.end_day %></span>
+  </div>
+  <div><span class="label">リンク</span> http://enokilog.com/share/<%= @subject.url %></div>
+  <div>
+	  <span class="timestamp">Posted <%= time_ago_in_words(@subject.created_at) %> ago.</span><br>
+	  <span class="timestamp">Updated <%= time_ago_in_words(@subject.updated_at) %> ago.</span>
+	</div>
+</div>
+
+<div class="row span12 table-view">
+	<table class="table table-hover log-table">
+		<tr>
+			<th>Day</th>
+			<th>Plan</th>
+			<th>Activity</th>
+			<th>Progress</th>
+			<th>Memo</th>
+		</tr>
+		<% for diary in @subject.diaries %>
+			<tr>
+				<td><p class="log-day center"><%= diary.day.strftime('%m/%d (%a)') %></p></td>
+				<td><p class="center">
+					<% unless diary.todo.blank? %><%= diary.todo %>
+					<% else %> - <% end %></p>
+				</td>
+				<td><p class="center">
+					<% unless diary.todo.blank? %><%= diary.todo %>
+					<% else %> - <% end %></p>
+				</td>
+				<td><p class="log-progress center">
+					<% unless diary.progress.blank? %>
+						<% if diary.progress == 10 %>Ｘ
+						<% elsif diary.progress == 50 %>△
+						<% elsif diary.progress == 100 %>○
+						<% elsif diary.progress == 150 %>◎
+						<% end %>
+					<% else %> - <% end %></p>
+				</td>
+				<td><p class="log-memo center">
+					<% unless diary.memo.blank? %><%= diary.memo %>
+					<% else %> - <% end %></p>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+</div>
+
+<div class="row span8 offset2 comment">
+	<h2>コメント</h2>
+	<ul>
+		<%for comment in @subject.comments %>
+			<li>
+				<% if comment.owner_flag %>
+					<div class="label label-success">学びの道中のエノキ</div>
+				<% else %>
+					<div class="label">通りすがりのエノキ]</div>
+				<% end %>
+				<div class="comment-content"><%= comment.content %></div>
+				<div class="right">
+					<span class="timestamp">Posted <%= time_ago_in_words(comment.created_at) %> ago.</span>
+					<span><%= link_to "Delete", "/comments/#{comment.id}", method: "delete", data: { confirm: "本当に削除しますか?" } %></span>
+				</div>
+			</li>
+		<% end %>
+	</ul>
+	<%= form_for(@comment) do |f| %>
+		<%= f.text_area :content %>
+		<%= f.hidden_field :subject_id, :readonly => true %>
+		<%= f.submit "Post comment", class: "btn btn-large btn-success" %>
+	<% end %>
+</div>
