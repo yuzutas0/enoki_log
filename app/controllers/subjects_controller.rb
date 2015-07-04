@@ -44,7 +44,7 @@ class SubjectsController < ApplicationController
 	# テーブルビューの表示
 	def show
 		@subject = Subject.find_by(url: params[:url])
-		return redirect_to(root_path)if @subject.blank?
+		return redirect_to(root_path) if @subject.blank?
 		@comment = Comment.new
 		@comment.subject_id = @subject.id
 	end
