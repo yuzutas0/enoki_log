@@ -22,6 +22,7 @@
 					<th>Activity</th>
 					<th>Progress</th>
 					<th>Memo</th>
+					<th>Hidden</th>
 				</tr>
 				<%= f.fields_for :diaries do |builder| %>
 					<tr>
@@ -29,7 +30,8 @@
 						<td><%= builder.text_field :todo %></td>
 						<td><%= builder.text_field :done %></td>
 						<td><%= builder.select :progress, {"Ｘ" => "10", "△" => "50", "◯" => "100", "◎" => "150"}, :include_blank => true, :class => 'log-progress' %></td>
-						<td><%= builder.text_field :memo, :class => 'log-memo' %></td>				
+						<td><%= builder.text_field :memo, :class => 'log-memo' %></td>
+						<td><%= builder.check_box :hidden_flag, {:class => 'log-hidden'}, true, false %></td>
 					</tr>
 				<% end %>
 			</table>

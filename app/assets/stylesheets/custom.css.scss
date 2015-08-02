@@ -354,6 +354,11 @@ aside {
           width: auto;
           min-width: 370px;
         }
+        .log-hidden {
+          min-width: auto;
+          text-align: center;
+          margin: 0 15px 0;
+        }
         select, .log-progress {
           margin-bottom: 0;
           width: auto;

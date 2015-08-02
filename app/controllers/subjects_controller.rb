@@ -45,6 +45,7 @@ class SubjectsController < ApplicationController
 	def show
 		@subject = Subject.find_by(url: params[:url])
 		return redirect_to(root_path) if @subject.blank?
+		@log_display_count = @subject.diaries.where(hidden_flag: false).count
 		@comment = Comment.new
 		@comment.subject_id = @subject.id
 	end
@@ -58,6 +59,9 @@ class SubjectsController < ApplicationController
 	def update
 		@subject = Subject.find(params[:id])
 		@subject.updated_at = Time.now
+		for diary in @subject.diaries
+			diary.hidden_flag = false
+		end
 		if @subject.update!(update_subject_params)
 	 		flash[:success] = "Subject updated"
 	 		redirect_to(:back)
@@ -90,7 +94,7 @@ class SubjectsController < ApplicationController
 		def update_subject_params
 			params.require(:subject).permit(:title, :description, 
 				:materials_attributes => [:id, :name, :link, :_destroy], 
-				:diaries_attributes => [:id, :todo, :done, :progress, :memo])
+				:diaries_attributes => [:id, :todo, :done, :progress, :memo, :hidden_flag])
 		end
 
 		# Before actions

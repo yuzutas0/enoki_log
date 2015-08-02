@@ -35,31 +35,43 @@
 			<th>Progress</th>
 			<th>Memo</th>
 		</tr>
-		<% for diary in @subject.diaries %>
+		<% if @log_display_count == 0 %>
 			<tr>
-				<td><p class="log-day center"><%= diary.day.strftime('%m/%d (%a)') %></p></td>
-				<td><p class="center">
-					<% unless diary.todo.blank? %><%= diary.todo %>
-					<% else %> - <% end %></p>
-				</td>
-				<td><p class="center">
-					<% unless diary.done.blank? %><%= diary.done %>
-					<% else %> - <% end %></p>
-				</td>
-				<td><p class="log-progress center">
-					<% unless diary.progress.blank? %>
-						<% if diary.progress == 10 %>Ｘ
-						<% elsif diary.progress == 50 %>△
-						<% elsif diary.progress == 100 %>○
-						<% elsif diary.progress == 150 %>◎
-						<% end %>
-					<% else %> - <% end %></p>
-				</td>
-				<td><p class="log-memo center">
-					<% unless diary.memo.blank? %><%= diary.memo %>
-					<% else %> - <% end %></p>
-				</td>
+				<td><p class="log-day center"> - </p></td>
+				<td><p class="center"> - </p></td>
+				<td><p class="center"> - </p></td>
+				<td><p class="log-progress center"> - </p></td>
+				<td><p class="log-memo center"> - </p></td>
 			</tr>
+		<% else %>
+			<% for diary in @subject.diaries %>
+				<% unless diary.hidden_flag %>
+					<tr>
+						<td><p class="log-day center"><%= diary.day.strftime('%m/%d (%a)') %></p></td>
+						<td><p class="center">
+							<% unless diary.todo.blank? %><%= diary.todo %>
+							<% else %> - <% end %></p>
+						</td>
+						<td><p class="center">
+							<% unless diary.done.blank? %><%= diary.done %>
+							<% else %> - <% end %></p>
+						</td>
+						<td><p class="log-progress center">
+							<% unless diary.progress.blank? %>
+								<% if diary.progress == 10 %>Ｘ
+								<% elsif diary.progress == 50 %>△
+								<% elsif diary.progress == 100 %>○
+								<% elsif diary.progress == 150 %>◎
+								<% end %>
+							<% else %> - <% end %></p>
+						</td>
+						<td><p class="log-memo center">
+							<% unless diary.memo.blank? %><%= diary.memo %>
+							<% else %> - <% end %></p>
+						</td>
+					</tr>
+				<% end %>
+			<% end %>
 		<% end %>
 	</table>
 </div>
